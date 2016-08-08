@@ -84,19 +84,19 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="description" content="title：DeviceIoControl 的一个用处date：2016-08-09 00:27:33
+tags：DeviceIoControl NTFS MFT背景最近一个月一直在做快速扫描磁盘文件的东西，主要是通过扫描NTFS格式的磁盘中的索引树（B-树），可以得到整个磁盘文件的索引，然后通过遍历其索引树，即可得到目录下有哪些文件。这个需要对NTFS格式的磁盘的内部数据结构有一定的了解，这个">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://soygrow.github.io/2016/08/04/Hello-World/index.html">
+<meta property="og:title" content="soygrow 的博客">
+<meta property="og:url" content="http://soygrow.github.io/2016/08/04/DeviceIoControl读取File Entry/index.html">
 <meta property="og:site_name" content="soygrow 的博客">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2016-08-04T15:27:56.507Z">
+<meta property="og:description" content="title：DeviceIoControl 的一个用处date：2016-08-09 00:27:33
+tags：DeviceIoControl NTFS MFT背景最近一个月一直在做快速扫描磁盘文件的东西，主要是通过扫描NTFS格式的磁盘中的索引树（B-树），可以得到整个磁盘文件的索引，然后通过遍历其索引树，即可得到目录下有哪些文件。这个需要对NTFS格式的磁盘的内部数据结构有一定的了解，这个">
+<meta property="og:updated_time" content="2016-08-08T16:42:27.866Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="soygrow 的博客">
+<meta name="twitter:description" content="title：DeviceIoControl 的一个用处date：2016-08-09 00:27:33
+tags：DeviceIoControl NTFS MFT背景最近一个月一直在做快速扫描磁盘文件的东西，主要是通过扫描NTFS格式的磁盘中的索引树（B-树），可以得到整个磁盘文件的索引，然后通过遍历其索引树，即可得到目录下有哪些文件。这个需要对NTFS格式的磁盘的内部数据结构有一定的了解，这个">
 
 
 
@@ -117,9 +117,9 @@ Quick">
 
 
 
-  <link rel="canonical" href="http://soygrow.github.io/2016/08/04/Hello-World/"/>
+  <link rel="canonical" href="http://soygrow.github.io/2016/08/04/DeviceIoControl读取File Entry/"/>
 
-  <title> Hello World | soygrow 的博客 </title>
+  <title>  | soygrow 的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -262,7 +262,7 @@ Quick">
             
             
               
-                Hello World
+                
               
             
           </h1>
@@ -274,7 +274,7 @@ Quick">
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-04T23:27:56+08:00" content="2016-08-04">
+            <time itemprop="dateCreated" datetime="2016-08-04T23:43:04+08:00" content="2016-08-04">
               2016-08-04
             </time>
           </span>
@@ -285,8 +285,8 @@ Quick">
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/08/04/Hello-World/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/04/Hello-World/" itemprop="commentsCount"></span>
+                <a href="/2016/08/04/DeviceIoControl读取File Entry/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/04/DeviceIoControl读取File Entry/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -296,7 +296,7 @@ Quick">
 
           
           
-             <span id="/2016/08/04/Hello-World/" class="leancloud_visitors" data-flag-title="Hello World">
+             <span id="/2016/08/04/DeviceIoControl读取File Entry/" class="leancloud_visitors" data-flag-title="">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -318,15 +318,23 @@ Quick">
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <hr>
+<p>title：DeviceIoControl 的一个用处<br>date：2016-08-09 00:27:33</p>
+<h2 id="tags：DeviceIoControl-NTFS-MFT"><a href="#tags：DeviceIoControl-NTFS-MFT" class="headerlink" title="tags：DeviceIoControl NTFS MFT"></a>tags：DeviceIoControl NTFS MFT</h2><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近一个月一直在做快速扫描磁盘文件的东西，主要是通过扫描NTFS格式的磁盘中的索引树（B-树），可以得到整个磁盘文件的索引，然后通过遍历其索引树，即可得到目录下有哪些文件。这个需要对NTFS格式的磁盘的内部数据结构有一定的了解，这个可以参考我的另外一篇文章（这里还没有完成，待我完成时发布出来，当然网上也有很多资料）。</p>
+<p>预期是希望能够比windows的API（FindFirstFile和FindNextFile）效率要高，但是实际结果却不好，原因是磁盘IO太多了，因为首先找到根目录，然后找到根目录下的文件以及目录，然后再通过目录寻找其目录下的文件以及文件夹，所以需要不断的磁盘IO。</p>
+<p>这里我使用的文件映射（CreateFileMapping好像不可以映射磁盘）、异步IO以及windows的完成端口（IOCP），最终的效果都不好。</p>
+<p>然后经过老大的提醒，DeviceIOControl这个API也可以进行磁盘操作。查阅MSDN，这个API功能比较强大，功能比较多，发现其可以通过控制码直接和驱动交互，读取磁盘的File Entry。</p>
+<p>因为它的效率比较高，最终采用的读取磁盘所有File Entry，而后自建索引树。</p>
+<h2 id="API详细介绍"><a href="#API详细介绍" class="headerlink" title="API详细介绍"></a>API详细介绍</h2><h3 id="API参数"><a href="#API参数" class="headerlink" title="API参数"></a>API参数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">BOOL WINAPI DeviceIoControl(</div><div class="line">  _In_        HANDLE       hDevice,</div><div class="line">  _In_        DWORD        dwIoControlCode,</div><div class="line">  _In_opt_    LPVOID       lpInBuffer,</div><div class="line">  _In_        DWORD        nInBufferSize,</div><div class="line">  _Out_opt_   LPVOID       lpOutBuffer,</div><div class="line">  _In_        DWORD        nOutBufferSize,</div><div class="line">  _Out_opt_   LPDWORD      lpBytesReturned,</div><div class="line">  _Inout_opt_ LPOVERLAPPED lpOverlapped</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>参数一：设备句柄<br>参数二：控制码<br>参数三：输入缓冲区<br>参数四：输入缓冲区长度<br>参数五：输出缓冲区<br>参数六：输出缓冲区长度<br>参数七：返回的字节长度<br>参数八：一个OverLapped结构的指针</p>
+<h3 id="控制码"><a href="#控制码" class="headerlink" title="控制码"></a>控制码</h3><p>关于控制码主要有以下几个主题：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Communications Control Codes</div><div class="line">Device Management Control Codes</div><div class="line">Directory Management Control Codes</div><div class="line">Disk Management Control Codes</div><div class="line">File Management Control Codes</div><div class="line">Power Management Control Codes</div><div class="line">Volume Management Control Codes</div></pre></td></tr></table></figure></p>
+<p>控制码比较多，这里只介绍读取MFT的控制码，其他有兴趣可以参考MSDN。这个控制是<code>File Management Control Codes</code>中的 <code>FSCTL_GET_NTFS_FILE_RECORD</code>。</p>
+<p>这个控制在MSDN中的解释是<code>Retrieves the first file record that is in use and is of a lesser than or equal ordinal value to the requested file reference number.</code>主要意思是通过文件参考号（file reference number）获得File Entry。</p>
+<h3 id="控制码对应的API参数"><a href="#控制码对应的API参数" class="headerlink" title="控制码对应的API参数"></a>控制码对应的API参数</h3><p>再看该控制码对应的API参数结构：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">BOOL DeviceIoControl( (HANDLE) hDevice,              // handle to device</div><div class="line">                      FSCTL_GET_NTFS_FILE_RECORD,    // dwIoControlCode</div><div class="line">                      (LPVOID) lpInBuffer,           // input buffer</div><div class="line">                      (DWORD) nInBufferSize,         // size of input buffer</div><div class="line">                      (LPVOID) lpOutBuffer,          // output buffer</div><div class="line">                      (DWORD) nOutBufferSize,        // size of output buffer</div><div class="line">                      (LPDWORD) lpBytesReturned,     // number of bytes returned</div><div class="line">                      (LPOVERLAPPED) lpOverlapped ); // OVERLAPPED structure</div></pre></td></tr></table></figure></p>
+<p>这里主要注意两个参数：<br>参数三：NTFS_FILE_RECORD_INPUT_BUFFER 结构指明你要读取的File Entry的编号，例如$MFT的编号为0，那么你就给该参数传入0，需要注意的是LARGER_INTEGER有64位，分为高32位和低32位。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">typedef struct &#123;</div><div class="line">  LARGE_INTEGER FileReferenceNumber;</div><div class="line">&#125; NTFS_FILE_RECORD_INPUT_BUFFER, *PNTFS_FILE_RECORD_INPUT_BUFFER;</div></pre></td></tr></table></figure></p>
+<p>参数五：NTFS_FILE_RECORD_OUTPUT_BUFFER 结构，用来保存读取的数据缓冲区。注意，<code>FileRecordBuffer</code>只占一个字节，如果数据没有读完，该API返回相应的提示。一般一个File Entry占2个扇区，一个扇区一般512字节，所以这里我一般将<code>FileRecordBuffer</code>改为占用1024字节的数组。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">typedef struct &#123;</div><div class="line">  LARGE_INTEGER FileReferenceNumber;</div><div class="line">  DWORD         FileRecordLength;</div><div class="line">  BYTE          FileRecordBuffer[1];     //可以改成FileRecordBuffer[1024]</div><div class="line">&#125; NTFS_FILE_RECORD_OUTPUT_BUFFER, *PNTFS_FILE_RECORD_OUTPUT_BUFFER;</div></pre></td></tr></table></figure></p>
+<h3 id="相关代码"><a href="#相关代码" class="headerlink" title="相关代码"></a>相关代码</h3><p>以上就是利用<code>DeviceIoControl1</code>读取<code>File Entry</code>时需要注意的地方，下面看下完整代码：<br>首先打开磁盘，注意CreateFile的各个参数的含义：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">CString wStrVolum = L<span class="string">"\\\\.\\C:"</span>;        //以C盘为例</div><div class="line">hVolume = CreateFile(</div><div class="line">	wStrVolum,</div><div class="line">	GENERIC_READ,</div><div class="line">	FILE_SHARE_READ | FILE_SHARE_WRITE,</div><div class="line">	0,</div><div class="line">	OPEN_EXISTING,</div><div class="line">	0,</div><div class="line">	0);</div></pre></td></tr></table></figure></p>
+<p>然后读取File Entry：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">typedef struct &#123;</div><div class="line">  LARGE_INTEGER FileReferenceNumber;</div><div class="line">  DWORD         FileRecordLength;</div><div class="line">  BYTE          FileRecordBuffer[1024];</div><div class="line">&#125; NTFS_FILE_RECORD_OUTPUT_BUFFER, *PNTFS_FILE_RECORD_OUTPUT_BUFFER;</div><div class="line"></div><div class="line">int ReadMFT(FILE_RECORD_HEADER* mftRecord, ULONGLONG mftID)</div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span> (mftRecord == NULL)</div><div class="line">		<span class="built_in">return</span> -1;</div><div class="line"></div><div class="line">	NTFS_FILE_RECORD_INPUT_BUFFER nfrib;</div><div class="line">	NTFS_FILE_RECORD_OUTPUT_BUFFER2 nfrob;</div><div class="line"></div><div class="line">	<span class="keyword">if</span> (hVolume != INVALID_HANDLE_VALUE)</div><div class="line">	&#123;</div><div class="line">		nfrib.FileReferenceNumber.QuadPart = mftID;</div><div class="line">		DWORD bytesReturned = 0;</div><div class="line">		BOOL ret = DeviceIoControl(</div><div class="line">			hVolume,</div><div class="line">			FSCTL_GET_NTFS_FILE_RECORD,</div><div class="line">			&amp;nfrib,</div><div class="line">			sizeof(NTFS_FILE_RECORD_INPUT_BUFFER),</div><div class="line">			&amp;nfrob,</div><div class="line">			sizeof(NTFS_FILE_RECORD_OUTPUT_BUFFER2),</div><div class="line">			&amp;bytesReturned,</div><div class="line">			NULL);</div><div class="line"></div><div class="line">		<span class="keyword">if</span> (bytesReturned&gt;0)</div><div class="line">		&#123;</div><div class="line">			memcpy(mftRecord, nfrob.FileRecordBuffer, 1024);</div><div class="line">			<span class="built_in">return</span> -1;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">return</span> 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -352,13 +360,13 @@ Quick">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/08/04/Hello-World/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/08/04/DeviceIoControl读取File Entry/" rel="prev" title="">
-                 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -403,15 +411,12 @@ Quick">
           </div>
           
 
-  <p>热评文章</p>
-  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
-
 
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/08/04/Hello-World/"
-           data-title="Hello World" data-url="http://soygrow.github.io/2016/08/04/Hello-World/">
+      <div class="ds-thread" data-thread-key="2016/08/04/DeviceIoControl读取File Entry/"
+           data-title="" data-url="http://soygrow.github.io/2016/08/04/DeviceIoControl读取File Entry/">
       </div>
     
   </div>
@@ -488,7 +493,7 @@ Quick">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tags：DeviceIoControl-NTFS-MFT"><span class="nav-number">1.</span> <span class="nav-text">tags：DeviceIoControl NTFS MFT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API详细介绍"><span class="nav-number">3.</span> <span class="nav-text">API详细介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#API参数"><span class="nav-number">3.1.</span> <span class="nav-text">API参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制码"><span class="nav-number">3.2.</span> <span class="nav-text">控制码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制码对应的API参数"><span class="nav-number">3.3.</span> <span class="nav-text">控制码对应的API参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关代码"><span class="nav-number">3.4.</span> <span class="nav-text">相关代码</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
