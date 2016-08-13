@@ -93,7 +93,7 @@ NTFS替换了FAT（文件分配表）和HPFS（高性能文件系统）并进行
 <meta property="og:description" content="简介NTFS（New Technology File System），是微软开发的专用文件系统，从windows NT 3.1（在1993年发布）开始成为windows NT家族的标准文件系统。
 NTFS替换了FAT（文件分配表）和HPFS（高性能文件系统）并进行了一系列改进，例如增强了对元数据的支持，使用了更高级的数据结构以提升性能、可靠性和磁盘空间利用率，并附带了一些列增强功能，如访问控制列表">
 <meta property="og:image" content="http://soygrow.github.io/images/201608/NTFS.jpg">
-<meta property="og:updated_time" content="2016-08-13T10:26:11.824Z">
+<meta property="og:updated_time" content="2016-08-13T16:43:07.846Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NTFS 磁盘介绍">
 <meta name="twitter:description" content="简介NTFS（New Technology File System），是微软开发的专用文件系统，从windows NT 3.1（在1993年发布）开始成为windows NT家族的标准文件系统。
@@ -492,10 +492,20 @@ NTFS替换了FAT（文件分配表）和HPFS（高性能文件系统）并进行
 <td>0x1FE</td>
 <td>2</td>
 <td>扇区结束标记</td>
-<td>该字段用于标记一个真长扇区的结束</td>
+<td>该字段用于标记一个扇区的结束</td>
 </tr>
 </tbody>
 </table>
+<p>以上就是$Boot引导扇区的数据结构，其中有以下几个参数需要重点关注：</p>
+<ul>
+<li>0x00，对于NTFS磁盘，该处是字符串”NTFS“</li>
+<li>0x0B，每个扇区字节数，一般512字节</li>
+<li>0x0D，每个簇包含的扇区数，一般为8</li>
+<li>0x30，$MFT所在的簇编号</li>
+<li>0x38，$MFT镜像备份的簇编号，为了防止$MFT损坏的情况</li>
+<li>0x40，File Entry占用的字节数，该字段是带符号数，例如，该字段为0xF6，即以带符号补码形式，补码换算一下为-10，而计算方式是2^-(-10)=1024字节，占用两个扇区</li>
+<li>0x1FE，扇区结束符 FFFF</li>
+</ul>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
 <p><a href="http://www.cnblogs.com/skogkatt/p/4246783.html" target="_blank" rel="external">http://www.cnblogs.com/skogkatt/p/4246783.html</a><br><a href="https://zh.wikipedia.org/zh-cn/NTFS" target="_blank" rel="external">https://zh.wikipedia.org/zh-cn/NTFS</a></p>
 </blockquote>
