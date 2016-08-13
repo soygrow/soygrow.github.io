@@ -17,8 +17,8 @@
 <li>v3.1随windows XP与2001年秋季发布，而后也用于Windows Vista和Windows 7。在MFT中提供冗余MFT记录数扩展项。</li>
 </ul>
 <p>这里提到NTFS的版本，不同版本的NTFS在数据结构中也是有差距的，所以在考虑利用NTFS做一些东西的时候，需要考虑版本问题。其他详细介绍可以参考<a href="https://zh.wikipedia.org/zh-cn/NTFS" target="_blank" rel="external">wikipedia</a></p>
-<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>NTFS磁盘主要布局如下图所示：<br><img src="/source/image/201608/NTFS.jpg" alt="img"></p>
-<p>如果本文对你有用，请留下你来过的痕迹，转载请注明出处[<a href="https://soygrow.github.io]！2016年8月4号于北京">https://soygrow.github.io]！2016年8月4号于北京</a></p>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>NTFS磁盘主要布局如下图所示：<br><img src="../source/image/201608/NTFS.jpg" alt="img"></p>
+<p>如果本文对你有用，请留下你来过的痕迹，转载请注明出处! 2016年8月4号于北京  <a href="https://soygrow.github.io">https://soygrow.github.io</a></p>
 ]]></content>
     </entry>
     
