@@ -93,7 +93,7 @@ NTFS替换了FAT（文件分配表）和HPFS（高性能文件系统）并进行
 <meta property="og:description" content="简介NTFS（New Technology File System），是微软开发的专用文件系统，从windows NT 3.1（在1993年发布）开始成为windows NT家族的标准文件系统。
 NTFS替换了FAT（文件分配表）和HPFS（高性能文件系统）并进行了一系列改进，例如增强了对元数据的支持，使用了更高级的数据结构以提升性能、可靠性和磁盘空间利用率，并附带了一些列增强功能，如访问控制列表">
 <meta property="og:image" content="http://soygrow.github.io/images/201608/NTFS.jpg">
-<meta property="og:updated_time" content="2016-08-13T16:43:07.846Z">
+<meta property="og:updated_time" content="2016-08-14T03:12:54.713Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NTFS 磁盘介绍">
 <meta name="twitter:description" content="简介NTFS（New Technology File System），是微软开发的专用文件系统，从windows NT 3.1（在1993年发布）开始成为windows NT家族的标准文件系统。
@@ -506,6 +506,106 @@ NTFS替换了FAT（文件分配表）和HPFS（高性能文件系统）并进行
 <li>0x40，File Entry占用的字节数，该字段是带符号数，例如，该字段为0xF6，即以带符号补码形式，补码换算一下为-10，而计算方式是2^-(-10)=1024字节，占用两个扇区</li>
 <li>0x1FE，扇区结束符 FFFF</li>
 </ul>
+<p>通过0x30位置，我们可以找到$MFT结构，$MFT是描述卷上的所有文件，是介绍其本身，后续会通过其数据结构来解释其具体的作用。下面介绍$BOOT后的元文件。</p>
+<h3 id="主文件表（MFT）"><a href="#主文件表（MFT）" class="headerlink" title="主文件表（MFT）"></a>主文件表（MFT）</h3><p>在NTFS中，所有文件数据–文件名称、创建日期、访问权限，以及内容–都作为元数据存储在主文件表中。这种抽象的实现方式能够大大简化为文件系统添加功能的成本。</p>
+<p>MFT结构支持最小化磁盘碎片的算法。一个目录项同时包含“文件名”和“文件ID”，后者是用于在主文件表中表示文件的记录编号。文件ID也包含“重用次数”信息，可用于检测对文件的过期引用。</p>
+<h3 id="元文件"><a href="#元文件" class="headerlink" title="元文件"></a>元文件</h3><p>NTFS是包含若干用于定义和阻止文件系统的文件。这些文件中的绝大多数结构和其他用户文件类似（只有$Volume比较特殊），但不能被文件系统客户端直接访问。这些元文件定义文件、备份文件系统的关键数据、缓存文件系统的更改、管理空闲空间的分配、满足BIOS的要求、跟踪坏扇区单元，以及存储安全信息和此按空间使用情况等等多种不同需求提供支持。</p>
+<table>
+<thead>
+<tr>
+<th>区段编号</th>
+<th>文件名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>$MFT</td>
+<td>描述卷上的所有文件，包括文件名、时间戳、流名称和数据流所在的簇编号列表、索引、安全标示符，以及文件属性</td>
+</tr>
+<tr>
+<td>1</td>
+<td>$MFTMirr</td>
+<td>$MFT的最开始截个关键项的副本，通常4项，作为副本保存在其他地方</td>
+</tr>
+<tr>
+<td>2</td>
+<td>$LogFile</td>
+<td>文件系统更改的事物日志，用于保护元数据的稳定性</td>
+</tr>
+<tr>
+<td>3</td>
+<td>$Volume</td>
+<td>卷的相关信息，如卷对象标示符、卷标、文件系统版本，以及若干卷标志。这些数据不直接在数据流中存储，而是存储于特殊的MFT属性中。如果卷对象标示符存在，则将会在一个$OJBECT_ID记录中，卷存储在$VOLUME_NAME记录中，其他数据存储在$VOLUME_INFORMATION记录中，卷序列号存储在$BOOT文件中</td>
+</tr>
+<tr>
+<td>4</td>
+<td>$AttrDef</td>
+<td>所有NTFS项目使用到的属性的定义表，包含属性名称、属性编号和属性描述等</td>
+</tr>
+<tr>
+<td>5</td>
+<td>.</td>
+<td>根目录。目录数据存储在两个名称均未$I30的$INDEX_ROOT和$INDEX_ALLOCATION属性中</td>
+</tr>
+<tr>
+<td>6</td>
+<td>$Bitmap</td>
+<td>一个位图，每一位按顺序指示卷上的对应簇正在被使用（1）或空闲（0）</td>
+</tr>
+<tr>
+<td>7</td>
+<td>$Boot</td>
+<td>卷引导记录，该文件始终位于卷的第一个簇，其中包含引导代码（用于定位并启动NTLDR/BOOTMGR）、BIOS参数块（其中包含卷序列号），以及$MFT和$MFTMirr所在的簇编号</td>
+</tr>
+<tr>
+<td>8</td>
+<td>$BadClus</td>
+<td>包含所有标记为“有坏扇区”的簇的一个文件。该文件通常被chksdk（磁盘扫描）工具使用，用于管理所有簇状态，记录坏扇区，以及标记空白簇。该文件包含两个数据流（无论卷是否有坏到）：一个包含所有坏扇区编号的无名称流（如果卷没有坏扇区则该流长度为零），以及名称为$Bad的流，包含所有包含记录在第一个流中的簇</td>
+</tr>
+<tr>
+<td>9</td>
+<td>$Secure</td>
+<td>访问控制列表数据库，NTFS将所有ACL信息几种存储于该数据库（而非每个文件独立存储鸽子的ACL）以节省磁盘占用并提高执行效率。此部分包含两个索引，分别是：“￥SII”–可能是安全ID索引，以及“SDH”–安全描述符哈希。注意大部分ACL列表通常都很长，因此这个部分知识索引，记录的是实际存储ACL数据的$SDS流的位置</td>
+</tr>
+<tr>
+<td>10</td>
+<td>$UpCase</td>
+<td>Unicode大写字母表，用于确保在Win32和DOS命名空间下大小写不敏感</td>
+</tr>
+<tr>
+<td>11</td>
+<td>$Extend</td>
+<td>文件系统目录，用于包含若干操作系统或其他软件所需要的扩展数据，如$Quota、$ObjId、$Reparse、$UsnJrnl等</td>
+</tr>
+<tr>
+<td>12-23</td>
+<td></td>
+<td>保留，为了以后扩展</td>
+</tr>
+<tr>
+<td>24</td>
+<td>$Extend\$Quota</td>
+<td>磁盘限额设置</td>
+</tr>
+<tr>
+<td>25</td>
+<td>$Extend\$ObjId</td>
+<td>分布链接跟踪数据。包含一个索引根目录，名称为$0</td>
+</tr>
+<tr>
+<td>26</td>
+<td>$Extend\$Reparse</td>
+<td>卷上所有重解析点数据。包含一个索引根目录，名称为$R</td>
+</tr>
+<tr>
+<td>27</td>
+<td>file.ext</td>
+<td>常规文件系统项目的起始位置</td>
+</tr>
+</tbody>
+</table>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
 <p><a href="http://www.cnblogs.com/skogkatt/p/4246783.html" target="_blank" rel="external">http://www.cnblogs.com/skogkatt/p/4246783.html</a><br><a href="https://zh.wikipedia.org/zh-cn/NTFS" target="_blank" rel="external">https://zh.wikipedia.org/zh-cn/NTFS</a></p>
 </blockquote>
@@ -671,7 +771,7 @@ NTFS替换了FAT（文件分配表）和HPFS（高性能文件系统）并进行
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#版本"><span class="nav-number">2.</span> <span class="nav-text">版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构"><span class="nav-number">3.</span> <span class="nav-text">结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引导扇区-Boot"><span class="nav-number">3.1.</span> <span class="nav-text">引导扇区 $Boot</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#版本"><span class="nav-number">2.</span> <span class="nav-text">版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构"><span class="nav-number">3.</span> <span class="nav-text">结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引导扇区-Boot"><span class="nav-number">3.1.</span> <span class="nav-text">引导扇区 $Boot</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主文件表（MFT）"><span class="nav-number">3.2.</span> <span class="nav-text">主文件表（MFT）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#元文件"><span class="nav-number">3.3.</span> <span class="nav-text">元文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
           </div>
         </section>
