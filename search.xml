@@ -292,6 +292,12 @@
 </tr>
 </tbody>
 </table>
+<p>以上是所有元文件，其中需要重点关注的几个元文件如下所示：</p>
+<ul>
+<li>$MFT：里面包含整个磁盘中所有File Entry的信息，比如File Entry的总数（包含已经删除的File Entry）</li>
+<li>.：根目录，通过它以及其中的相关属性，我们可以遍历NTFS的整个目录</li>
+<li>$Bitmap：每一位标识File Entry是否在使用</li>
+</ul>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
 <p><a href="http://www.cnblogs.com/skogkatt/p/4246783.html" target="_blank" rel="external">http://www.cnblogs.com/skogkatt/p/4246783.html</a><br><a href="https://zh.wikipedia.org/zh-cn/NTFS" target="_blank" rel="external">https://zh.wikipedia.org/zh-cn/NTFS</a></p>
 </blockquote>
