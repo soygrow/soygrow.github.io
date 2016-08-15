@@ -4,6 +4,21 @@
   
     
     <entry>
+      <title><![CDATA[我的博客提交命令]]></title>
+      <url>http://soygrow.github.io/2016/08/16/%E5%8D%9A%E5%AE%A2git%E6%8F%90%E4%BA%A4%E5%91%BD%E4%BB%A4/</url>
+      <content type="html"><![CDATA[<p>博客git提交命令老是忘记，这里做一记录。</p>
+<ol>
+<li>防止出现<code>fatal: remote origin already exists</code>错误提示，首先输入下面命令<code>git remote rm origin</code></li>
+<li><code>git add .</code>添加所有文件，必要是一个一个的添加</li>
+<li><code>git commit -c &quot;注释语句&quot;</code></li>
+<li><code>git remote add origin https://github.com/soygrow/soygrow-blog.git</code></li>
+<li><code>git push -u origin master</code></li>
+</ol>
+<p>整理的比较辛苦，如果本文对你有用，请留下你来过的痕迹，转载请注明出处! 2016年8月15号于北京  <a href="https://soygrow.github.io">https://soygrow.github.io</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[windbg利用UnhandledExceptionFilter]]></title>
       <url>http://soygrow.github.io/2016/08/15/windbg%E5%88%A9%E7%94%A8UnhandledExceptionFilter%E8%B0%83%E8%AF%95/</url>
       <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>windbg是非常强大的调试工具，具体怎么使用，网上已经有很多的教程了，这里就不复述了。</p>
